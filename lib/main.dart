@@ -53,7 +53,7 @@ class _NoteState extends State<Note> {
           if (snapshot.hasData) {
             final docs = snapshot.data!.docs;
             return ListView.builder(
-              itemCount: 2,
+              itemCount: docs.length,
                 itemBuilder: (_, int index){
                 final titledata = docs[index].get('title');
                 final descdata = docs[index].get('description');
@@ -68,7 +68,7 @@ class _NoteState extends State<Note> {
                           Padding(
                             padding: const EdgeInsets.only(left: 10,top: 5,bottom: 5),
                             child: Text(
-                              titledata[index],
+                              titledata,
                               style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class _NoteState extends State<Note> {
                           Padding(
                             padding: const EdgeInsets.only(left: 10,bottom: 5),
                             child: Text(
-                              descdata[index],
+                              descdata,
                                   style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 18,)
@@ -85,8 +85,9 @@ class _NoteState extends State<Note> {
                           ),
                         ],
                       ),
-                        if(widget.title.isNotEmpty)
-                        IconButton(onPressed: (){},
+                        IconButton(onPressed: (){
+
+                        },
                             icon: const Icon(Icons.remove,
                           color: Colors.redAccent,)),
                     ],
