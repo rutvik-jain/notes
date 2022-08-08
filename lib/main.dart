@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/add_note.dart';
 
-void main() {
-  runApp(const MyApp());
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,59 +37,76 @@ class _NoteState extends State<Note> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Notes',style: TextStyle(
+        title: const Text('Notes',style: TextStyle(
           color: Colors.redAccent,
           fontWeight: FontWeight.bold,
           fontSize: 26,
         ),),
       ),
-      body: ListView.builder(
-        itemCount: 1,
-          itemBuilder: (BuildContext context, int index){
-            return Card(
-              color: Colors.black,
-              child: Row(
-                children: [
-                  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 5,bottom: 5),
-                      child: Text(widget.title,
-                        style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,fontWeight: FontWeight.bold,
-                      ),),
+      body:
+      StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('notes').snapshots(),
+        builder: (_, snapshot) {
+          if (snapshot.hasError)
+            return Text('Error = ${snapshot.error}');
+
+          if (snapshot.hasData) {
+            final docs = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: 2,
+                itemBuilder: (_, int index){
+                final titledata = docs[index].get('title');
+                final descdata = docs[index].get('description');
+                  return Card(
+                    color: Colors.black,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,top: 5,bottom: 5),
+                            child: Text(
+                              titledata[index],
+                              style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,fontWeight: FontWeight.bold,
+                            ),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,bottom: 5),
+                            child: Text(
+                              descdata[index],
+                                  style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 18,)
+                              ),
+                          ),
+                        ],
+                      ),
+                        if(widget.title.isNotEmpty)
+                        IconButton(onPressed: (){},
+                            icon: const Icon(Icons.remove,
+                          color: Colors.redAccent,)),
+                    ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10,bottom: 5),
-                      child: Text(widget.description,
-                            style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 18,)
-                        ),
-                    ),
-                  ],
-                ),
-                  Align(
-                    alignment: Alignment.topRight,
-                      widthFactor: 5.2,
-                      child: IconButton(onPressed: (){
-                        Navigator.pop(context);
-                        },
-                          icon: Icon(Icons.remove,
-                        color: Colors.redAccent,))),
-              ],
-              ),
-            );
-          }),
+                  );
+                });
+          }
+          else return Center(
+            child: CircularProgressIndicator(),
+          );
+          }
+      ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
           return Add_note();
-        }));
+        })
+        );
       },
-      child: Icon(Icons.add,color: Colors.white,),
-      backgroundColor: Colors.redAccent,),
+      backgroundColor: Colors.redAccent,
+      child: const Icon(Icons.add,color: Colors.white,),),
       backgroundColor: Colors.black,
     );
   }

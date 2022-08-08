@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Add_note extends StatefulWidget {
   const Add_note({Key? key}) : super(key: key);
@@ -70,10 +71,16 @@ class _Add_noteState extends State<Add_note> {
           SizedBox(height: 25,),
           SizedBox(
             width: 100,
-            child: ElevatedButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-                return Note(titleController.text,descriptionController.text);
-              }));
+            child: ElevatedButton(onPressed: () async {
+              FirebaseFirestore.instance.collection("notes").add({
+                'title': titleController.text,
+                'description': descriptionController.text}).
+              then((value){
+                print(value.id);
+                  Navigator.pop(context, MaterialPageRoute(builder: (BuildContext context){
+                    return Note(titleController.text,descriptionController.text);
+                  }));
+              });
             },
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.redAccent),
                 shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
