@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/notes.dart';
+import 'package:notes/signup.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,7 +21,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        backgroundColor: Colors.black,
+        title: const Text('Login',
+        style: TextStyle(color: Colors.redAccent),),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -55,13 +60,20 @@ class _LoginState extends State<Login> {
             const SizedBox(height: 20),
             ElevatedButton(onPressed: (){
               print('login succeeded');
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (BuildContext context){
-                    return Note('', '');
-                  }));
+              FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: emailController.text, password: pwdController.text)
+                  .then((FirebaseUser){
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return const Note('', '');
+                          })
+                    );
+              });
             },
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
                 child: const Text('Login',style: TextStyle(
-                    color: Colors.white,fontSize: 18),
+                    color: Colors.redAccent,fontSize: 18),
                 )),
 
             Row(
@@ -69,9 +81,12 @@ class _LoginState extends State<Login> {
               children: [
                 Text('Don\'t have an account?'),
                 TextButton(onPressed: (){
-                  Navigator.pushNamed(context, '/signup');
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return Signup();
+                      }));
                 },
-                    child: Text('SignUp now!')),
+                    child: const Text('SignUp now!')),
               ],
             )
           ],

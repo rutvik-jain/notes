@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/add_note.dart';
+import 'package:notes/login.dart';
 
 class Note extends StatefulWidget {
   final String title;
@@ -22,6 +24,10 @@ class _NoteState extends State<Note> {
           fontWeight: FontWeight.bold,
           fontSize: 26,
         ),),
+        actions: [
+          IconButton(onPressed: (){},
+              icon: const Icon(Icons.logout,color: Colors.redAccent,))
+        ],
       ),
       body:
       StreamBuilder<QuerySnapshot>(
