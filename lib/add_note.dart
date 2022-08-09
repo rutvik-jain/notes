@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notes/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notes/notes.dart';
 
 class Add_note extends StatefulWidget {
   const Add_note({Key? key}) : super(key: key);
