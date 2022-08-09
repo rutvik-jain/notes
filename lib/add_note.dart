@@ -71,7 +71,8 @@ class _Add_noteState extends State<Add_note> {
           SizedBox(height: 25,),
           SizedBox(
             width: 100,
-            child: ElevatedButton(onPressed: () async {
+            child: ElevatedButton(
+                onPressed: () async {
               FirebaseFirestore.instance.collection("notes").add({
                 'title': titleController.text,
                 'description': descriptionController.text}).
