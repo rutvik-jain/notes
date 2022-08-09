@@ -3,11 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/add_note.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -47,14 +46,17 @@ class _NoteState extends State<Note> {
       StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('notes').snapshots(),
         builder: (_, snapshot) {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Text('Error = ${snapshot.error}');
+          }
 
           if (snapshot.hasData) {
             final docs = snapshot.data!.docs;
             return ListView.builder(
               itemCount: docs.length,
                 itemBuilder: (_, int index){
+                bool isDeleting = true;
+                final docID = snapshot.data!.docs[index].id;
                 final titledata = docs[index].get('title');
                 final descdata = docs[index].get('description');
                   return Card(
@@ -85,8 +87,11 @@ class _NoteState extends State<Note> {
                           ),
                         ],
                       ),
-                        IconButton(onPressed: (){
-
+                        IconButton(onPressed: () async{
+                          setState((){
+                            isDeleting;
+                          });
+                          await FirebaseFirestore.instance.collection('notes').doc('$docID').delete();
                         },
                             icon: const Icon(Icons.remove,
                           color: Colors.redAccent,)),
@@ -95,14 +100,16 @@ class _NoteState extends State<Note> {
                   );
                 });
           }
-          else return Center(
+          else {
+            return const Center(
             child: CircularProgressIndicator(),
           );
+          }
           }
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-          return Add_note();
+          return const Add_note();
         })
         );
       },
