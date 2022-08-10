@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
                   signInWithGoogle().then((onValue){
                     FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
                     add({
-                      'email': email, 'image': imageUrl, 'name': name,
+                      'email': emailController, 'image': imageUrl, 'name': uname,
                     });
                   }).catchError((e){
                     print(e);
