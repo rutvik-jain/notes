@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:notes/notes.dart';
 import 'package:notes/signup.dart';
 import 'package:notes/services/users.dart';
@@ -80,24 +79,38 @@ class _LoginState extends State<Login> {
 
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GoogleSignInButton(
-                darkMode: true,
-                onPressed: (){
-                  signInWithGoogle().then((onValue){
-                    FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
-                    add({
-                      'email': emailController, 'image': imageUrl, 'name': uname,
-                    });
-                  }).catchError((e){
-                    print(e);
-                  }).then((onValue){
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (BuildContext context){
-                          return Note('', '');
-                        })
-                    );
-                  }).catchError((e){print((e));});
-                },
+              child: SizedBox(
+                width: 160,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: (){
+                    signInWithGoogle().then((onValue){
+                      FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
+                      add({
+                        'email': email, 'image': imageUrl, 'name': uname,
+                      });
+                    }).catchError((e){
+                      print(e);
+                    }).then((onValue){
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return Note('', '');
+                          })
+                      );
+                    }).catchError((e){print((e));});
+                  }, child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Google'),
+                    ),
+                  ],
+                ),
+                ),
               ),
             ),
 

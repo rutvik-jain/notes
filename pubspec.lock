@@ -120,32 +120,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.1"
-  firebase_crashlytics:
-    dependency: "direct main"
-    description:
-      name: firebase_crashlytics
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.8.6"
-  firebase_crashlytics_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_crashlytics_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.12"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_auth_buttons:
-    dependency: "direct main"
-    description:
-      name: flutter_auth_buttons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.0"
   flutter_lints:
     dependency: "direct dev"
     description:

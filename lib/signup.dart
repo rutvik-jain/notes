@@ -77,7 +77,7 @@ class _SignupState extends State<Signup> {
               });
           },
               style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
-              child: const Text('Signin',style: TextStyle(
+              child: const Text('Signup',style: TextStyle(
                   color: Colors.redAccent,fontSize: 18),
               )),
         ],
