@@ -63,7 +63,7 @@ class _SignupState extends State<Signup> {
                         .add({'email': emailController.text, 'password': pwdController.text})
                         .then((value){
                           if (signedInUser != null){
-                            Navigator.push(context, MaterialPageRoute(
+                            Navigator.pushReplacement(context, MaterialPageRoute(
                                 builder: (BuildContext context){
                                   return Note('', '');
                                 }));

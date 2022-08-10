@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:notes/notes.dart';
 import 'package:notes/signup.dart';
+import 'package:notes/services/users.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -82,7 +83,20 @@ class _LoginState extends State<Login> {
               child: GoogleSignInButton(
                 darkMode: true,
                 onPressed: (){
-                  FirebaseAuth.instance.
+                  signInWithGoogle().then((onValue){
+                    FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
+                    add({
+                      'email': email, 'image': imageUrl, 'name': name,
+                    });
+                  }).catchError((e){
+                    print(e);
+                  }).then((onValue){
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (BuildContext context){
+                          return Note('', '');
+                        })
+                    );
+                  }).catchError((e){print((e));});
                 },
               ),
             ),
