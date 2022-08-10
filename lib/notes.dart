@@ -25,7 +25,12 @@ class _NoteState extends State<Note> {
           fontSize: 26,
         ),),
         actions: [
-          IconButton(onPressed: (){},
+          IconButton(onPressed: () async {
+           await FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){
+              return Login();
+            }));
+          },
               icon: const Icon(Icons.logout,color: Colors.redAccent,))
         ],
       ),
