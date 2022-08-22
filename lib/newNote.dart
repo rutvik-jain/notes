@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notes/notes.dart';
 
-class Add_note extends StatefulWidget {
-  const Add_note({Key? key}) : super(key: key);
+class NewNote extends StatefulWidget {
+  const NewNote({Key? key}) : super(key: key);
 
   @override
-  State<Add_note> createState() => _Add_noteState();
+  State<NewNote> createState() => _NewNoteState();
 }
-class _Add_noteState extends State<Add_note> {
+class _NewNoteState extends State<NewNote> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -58,6 +58,7 @@ class _Add_noteState extends State<Add_note> {
                       controller: descriptionController,
                       style: const TextStyle(color: Colors.white,fontSize: 16),
                       decoration: const InputDecoration(
+                        border: InputBorder.none,
                           contentPadding: EdgeInsets.only(left: 10),
                           hintText: 'Description',
                           hintStyle: TextStyle(color: Colors.white,fontSize: 16),

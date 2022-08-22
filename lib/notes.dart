@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Note extends StatefulWidget {
   final String title;
   final String description;
-  const Note(this.title,this.description);
+  Note(this.title,this.description);
 
   @override
   State<Note> createState() => _NoteState();
@@ -17,7 +17,7 @@ class Note extends StatefulWidget {
 
 class _NoteState extends State<Note> {
   late SharedPreferences logindata;
-  late String email;
+  String? email;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _NoteState extends State<Note> {
   void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
-      email = logindata.getString('email')!;
+      email = logindata.getString('email');
     });
   }
 
@@ -46,15 +46,15 @@ class _NoteState extends State<Note> {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context){
-                  return Profile();
+                  return const Profile();
                 }));
           },
-              icon: Icon(Icons.account_circle,color: Colors.redAccent,)),
+              icon: const Icon(Icons.account_circle,color: Colors.redAccent,)),
           IconButton(onPressed: () async {
             logindata.setBool('login', true);
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context){
-                  return Login();
+                  return const Login();
                 }));
            await FirebaseAuth.instance.signOut();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){
@@ -79,8 +79,8 @@ class _NoteState extends State<Note> {
                   itemBuilder: (_, int index){
                     bool isDeleting = true;
                     final docID = snapshot.data!.docs[index].id;
-                    final titledata = docs[index].get('title');
-                    final descdata = docs[index].get('description');
+                    final titleData = docs[index].get('title');
+                    final descData = docs[index].get('description');
                     return Card(
                       color: Colors.black,
                       child: Row(
@@ -92,7 +92,7 @@ class _NoteState extends State<Note> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 10,top: 5,bottom: 5),
                                 child: Text(
-                                  titledata,
+                                  titleData,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _NoteState extends State<Note> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 10,bottom: 5),
                                 child: Text(
-                                    descdata,
+                                    descData,
                                     style: const TextStyle(
                                       color: Colors.white70,
                                       fontSize: 18,)
@@ -131,7 +131,7 @@ class _NoteState extends State<Note> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-          return const Add_note();
+          return const NewNote();
         })
         );
       },

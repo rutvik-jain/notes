@@ -12,6 +12,9 @@ class _ProfileState extends State<Profile> {
   late SharedPreferences logindata;
   String? email;
   String? username;
+  String? gmail;
+  String? guser;
+  String? gimage;
 
   @override
   void initState() {
@@ -24,6 +27,8 @@ class _ProfileState extends State<Profile> {
     setState(() {
       email = logindata.getString('email');
       username = logindata.getString('username');
+      gmail = logindata.getString('gmail');
+      gimage = logindata.getString('gimage');
     });
   }
   @override
@@ -42,7 +47,19 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: const EdgeInsets.only(top: 10,right: 60),
               child: Text('Username:- $username',style: TextStyle(fontSize: 22),),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 120,left: 20),
+              child: Text('Gmail:- $gmail',style: TextStyle(fontSize: 22),),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10,right: 60),
+              child: Image.network('$gimage'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10,right: 60),
+              child: Text('Guser:- $guser',style: TextStyle(fontSize: 22),),
+            ),
           ],
         ),
       ),

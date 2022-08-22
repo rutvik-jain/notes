@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    check_if_already_login();
+    CheckIfAlreadyLogin();
   }
 
   @override
@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 80),
+              padding: const EdgeInsets.only(top: 80),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -98,7 +98,7 @@ class _LoginState extends State<Login> {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                           builder: (BuildContext context){
-                            return const Note('', '');
+                            return Note('', '');
                           })
                     );
               });
@@ -115,10 +115,26 @@ class _LoginState extends State<Login> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: (){
+                    String? gmail = umail;
+                    String? gimage = imageUrl;
+                    // String? guser = umail!.split('@')[0];
+
+                    if (gmail != '' && gimage != ''){
+                      print('Successfull');
+                      logindata.setBool('login', false);
+
+                      logindata.setString('gmail', gmail.toString());
+                      //logindata.setString('guser', guser);
+                      logindata.setString('gimage', gimage.toString());
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return Note('', '');
+                          }));
+                    }
                     signInWithGoogle().then((onValue){
                       FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
                       add({
-                        'email': email, 'image': imageUrl, 'name': uname,
+                        'email': umail, 'image': imageUrl, 'name': uname,
                       });
                     }).catchError((e){
                       print(e);
@@ -126,9 +142,10 @@ class _LoginState extends State<Login> {
                       Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (BuildContext context){
                             return Note('', '');
-                          })
+                          }),
                       );
                     }).catchError((e){print((e));});
+
                   },
                   child: Row(
                   children: [
@@ -149,11 +166,11 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Don\'t have an account?'),
+                const Text('Don\'t have an account?'),
                 TextButton(onPressed: (){
                   Navigator.push(context, MaterialPageRoute(
                       builder: (BuildContext context){
-                        return Signup();
+                        return const Signup();
                       }));
                 },
                     child: const Text('SignUp now!')),
@@ -164,7 +181,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-  void check_if_already_login() async {
+  void CheckIfAlreadyLogin() async {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') ?? true);
     
