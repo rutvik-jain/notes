@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/notes.dart';
 import 'package:notes/signup.dart';
 import 'package:notes/services/users.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,6 +18,15 @@ class _LoginState extends State<Login> {
   TextEditingController pwdController = TextEditingController();
   late String email;
   late String password;
+
+  late SharedPreferences logindata;
+  late bool newuser;
+
+  @override
+  void initState() {
+    super.initState();
+    check_if_already_login();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +43,54 @@ class _LoginState extends State<Login> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: 80),
-              child: TextField(
-                  controller: emailController,
-                  textAlign: TextAlign.start,
-                  decoration: const InputDecoration(
-                      labelText: 'Email'),
-                  onChanged: (value) {
-                    setState(() {
-                      password = value;
-                    });
-                  }
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                    controller: emailController,
+                    textAlign: TextAlign.start,
+                    decoration: const InputDecoration(
+                        labelText: 'Email'),
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    }
+                ),
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: pwdController,
-              textAlign: TextAlign.start,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  labelText: 'Password'),
-              onChanged: (value){
-                setState((){
-                  password = value;
-                });
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: pwdController,
+                textAlign: TextAlign.start,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    labelText: 'Password'),
+                onChanged: (value){
+                  setState((){
+                    password = value;
+                  });
+                },
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(onPressed: (){
+              String email = emailController.text;
+              String password = pwdController.text;
+              String username = emailController.text.split('@')[0];
+
+              if (email != '' && password != ''){
+                print('Successfull');
+                logindata.setBool('login', false);
+                
+                logindata.setString('email', email);
+                logindata.setString('username', username);
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (BuildContext context){
+                      return Note('', '');
+                    }));
+              }
               print('login succeeded');
               FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: emailController.text, password: pwdController.text)
@@ -98,14 +129,15 @@ class _LoginState extends State<Login> {
                           })
                       );
                     }).catchError((e){print((e));});
-                  }, child: Row(
+                  },
+                  child: Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset('assets/images/img.png',height: 50,width: 50,),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Google'),
                     ),
                   ],
@@ -131,5 +163,24 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    
+    print('newuser');
+    if(newuser == false) {
+      Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (BuildContext context){
+            return Note('', '');
+          }));
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    pwdController.dispose();
+    super.dispose();
   }
 }

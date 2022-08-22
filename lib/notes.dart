@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/newNote.dart';
 import 'package:notes/login.dart';
+import 'package:notes/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Note extends StatefulWidget {
   final String title;
@@ -14,6 +16,22 @@ class Note extends StatefulWidget {
 }
 
 class _NoteState extends State<Note> {
+  late SharedPreferences logindata;
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      email = logindata.getString('email')!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +43,19 @@ class _NoteState extends State<Note> {
           fontSize: 26,
         ),),
         actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(
+                builder: (BuildContext context){
+                  return Profile();
+                }));
+          },
+              icon: Icon(Icons.account_circle,color: Colors.redAccent,)),
           IconButton(onPressed: () async {
+            logindata.setBool('login', true);
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context){
+                  return Login();
+                }));
            await FirebaseAuth.instance.signOut();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){
               return Login();
