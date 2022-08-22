@@ -30,30 +30,36 @@ class _SignupState extends State<Signup> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 80),
-            child: TextField(
-                controller: emailController,
-                textAlign: TextAlign.start,
-                decoration: const InputDecoration(
-                    labelText: 'Email'),
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                }
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                  controller: emailController,
+                  textAlign: TextAlign.start,
+                  decoration: const InputDecoration(
+                      labelText: 'Email'),
+                  onChanged: (value) {
+                    setState(() {
+                      password = value;
+                    });
+                  }
+              ),
             ),
           ),
           const SizedBox(height: 20),
-          TextField(
-            controller: pwdController,
-            textAlign: TextAlign.start,
-            obscureText: true,
-            decoration: const InputDecoration(
-                labelText: 'Password'),
-            onChanged: (value){
-              setState((){
-                password = value;
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: pwdController,
+              textAlign: TextAlign.start,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  labelText: 'Password'),
+              onChanged: (value){
+                setState((){
+                  password = value;
+                });
+              },
+            ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(onPressed: (){
