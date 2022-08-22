@@ -117,14 +117,14 @@ class _LoginState extends State<Login> {
                   onPressed: (){
                     String? gmail = umail;
                     String? gimage = imageUrl;
-                    // String? guser = umail!.split('@')[0];
+                    String? guser = umail.toString().split('@')[0];
 
                     if (gmail != '' && gimage != ''){
                       print('Successfull');
                       logindata.setBool('login', false);
 
                       logindata.setString('gmail', gmail.toString());
-                      //logindata.setString('guser', guser);
+                      logindata.setString('guser', guser);
                       logindata.setString('gimage', gimage.toString());
                       Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (BuildContext context){

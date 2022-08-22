@@ -29,6 +29,7 @@ class _ProfileState extends State<Profile> {
       username = logindata.getString('username');
       gmail = logindata.getString('gmail');
       gimage = logindata.getString('gimage');
+      guser = logindata.getString('guser');
     });
   }
   @override
