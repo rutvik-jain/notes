@@ -32,7 +32,7 @@ class _SignupState extends State<Signup> {
             padding: EdgeInsets.only(top: 80),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              child: TextFormField(
                   controller: emailController,
                   textAlign: TextAlign.start,
                   decoration: const InputDecoration(
@@ -48,7 +48,7 @@ class _SignupState extends State<Signup> {
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
+            child: TextFormField(
               controller: pwdController,
               textAlign: TextAlign.start,
               obscureText: true,

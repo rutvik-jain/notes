@@ -21,6 +21,17 @@ class _LoginState extends State<Login> {
 
   late SharedPreferences logindata;
   late bool newuser;
+  String validateEmail(String? value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value))
+      return 'Enter a valid email address';
+    else
+      return '';
+  }
 
   @override
   void initState() {
@@ -45,9 +56,11 @@ class _LoginState extends State<Login> {
               padding: const EdgeInsets.only(top: 80),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                child: TextFormField(
+                  validator: (value) => validateEmail(value),
                     controller: emailController,
                     textAlign: TextAlign.start,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                         labelText: 'Email'),
                     onChanged: (value) {
@@ -61,7 +74,7 @@ class _LoginState extends State<Login> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              child: TextFormField(
                 controller: pwdController,
                 textAlign: TextAlign.start,
                 obscureText: true,
@@ -75,15 +88,18 @@ class _LoginState extends State<Login> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(onPressed: (){
+
+            ElevatedButton(
+                onPressed: (){
               String email = emailController.text;
               String password = pwdController.text;
               String username = emailController.text.split('@')[0];
 
               if (email != '' && password != ''){
                 print('Successfull');
+
                 logindata.setBool('login', false);
-                
+
                 logindata.setString('email', email);
                 logindata.setString('username', username);
                 Navigator.pushReplacement(context, MaterialPageRoute(
@@ -119,7 +135,7 @@ class _LoginState extends State<Login> {
                     String? gimage = imageUrl;
                     String? guser = umail.toString().split('@')[0];
 
-                    if (gmail != '' && gimage != ''){
+                    if (gmail != ''){
                       print('Successfull');
                       logindata.setBool('login', false);
 
