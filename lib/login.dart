@@ -14,6 +14,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final formGlobalKey = GlobalKey < FormState > ();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
   late String email;
@@ -21,17 +23,6 @@ class _LoginState extends State<Login> {
 
   late SharedPreferences logindata;
   late bool newuser;
-  String validateEmail(String? value) {
-    String pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = RegExp(pattern);
-    if (value == null || value.isEmpty || !regex.hasMatch(value))
-      return 'Enter a valid email address';
-    else
-      return '';
-  }
 
   @override
   void initState() {
@@ -50,19 +41,50 @@ class _LoginState extends State<Login> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
-              child: Padding(
+        child: Form(
+          key: formGlobalKey,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 80),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    validator: (value) {
+                    if (value!.isEmpty || !value.contains('@')) {
+                    return 'Invalid email';
+                    }
+                    return null;
+                    },
+                      textAlign: TextAlign.start,
+                    controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                          labelText: 'Email'),
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    }
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  validator: (value) => validateEmail(value),
-                    controller: emailController,
-                    textAlign: TextAlign.start,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                        labelText: 'Email'),
+                  validator: (value) {
+                    if (value!.isEmpty || value.length <= 6) {
+                      return 'Password required atleast 6 digits!';
+                    } else {
+                      return null;
+                    }
+                  },
+                  textAlign: TextAlign.start,
+                  controller: pwdController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Password'),
                     onChanged: (value) {
                       setState(() {
                         password = value;
@@ -70,129 +92,117 @@ class _LoginState extends State<Login> {
                     }
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: pwdController,
-                textAlign: TextAlign.start,
-                obscureText: true,
-                decoration: const InputDecoration(
-                    labelText: 'Password'),
-                onChanged: (value){
-                  setState((){
-                    password = value;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            ElevatedButton(
-                onPressed: (){
-              String email = emailController.text;
-              String password = pwdController.text;
-              String username = emailController.text.split('@')[0];
-
-              if (email != '' && password != ''){
-                print('Successfull');
-
-                logindata.setBool('login', false);
-
-                logindata.setString('email', email);
-                logindata.setString('username', username);
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (BuildContext context){
-                      return Note('', '');
-                    }));
-              }
-              print('login succeeded');
-              FirebaseAuth.instance.signInWithEmailAndPassword(
-                  email: emailController.text, password: pwdController.text)
-                  .then((FirebaseUser){
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                          builder: (BuildContext context){
-                            return Note('', '');
-                          })
-                    );
-              });
-            },
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
-                child: const Text('Login',style: TextStyle(
-                    color: Colors.redAccent,fontSize: 18),
-                )),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 160,
-                height: 50,
-                child: ElevatedButton(
+              ElevatedButton(
                   onPressed: (){
-                    String? gmail = umail;
-                    String? gimage = imageUrl;
-                    String? guser = umail.toString().split('@')[0];
 
-                    if (gmail != ''){
-                      print('Successfull');
-                      logindata.setBool('login', false);
+                String email = emailController.text;
+                String password = pwdController.text;
+                String username = emailController.text.split('@')[0];
 
-                      logindata.setString('gmail', gmail.toString());
-                      logindata.setString('guser', guser);
-                      logindata.setString('gimage', gimage.toString());
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (BuildContext context){
-                            return Note('', '');
-                          }));
-                    }
-                    signInWithGoogle().then((onValue){
-                      FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
-                      add({
-                        'email': umail, 'image': imageUrl, 'name': uname,
-                      });
-                    }).catchError((e){
-                      print(e);
-                    }).then((onValue){
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (BuildContext context){
-                            return Note('', '');
-                          }),
+                if (formGlobalKey.currentState!.validate()) {
+
+                // if (email != '' || !email.contains('@') && password != '' || password.length >= 6){
+                  print('Successfull');
+
+                  logindata.setBool('login', false);
+
+                  logindata.setString('email', email);
+                  logindata.setString('username', username);
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return Note('', '');
+                      }));
+                 }
+                else return;
+                print('login succeeded');
+                FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: emailController.text, password: pwdController.text)
+                    .then((FirebaseUser){
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return Note('', '');
+                            })
                       );
-                    }).catchError((e){print((e));});
+                });
+              },
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
+                  child: const Text('Login',style: TextStyle(
+                      color: Colors.redAccent,fontSize: 18),
+                  )),
 
-                  },
-                  child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/img.png',height: 50,width: 50,),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Google'),
-                    ),
-                  ],
-                ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 160,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: (){
+                      String? gmail = umail;
+                      String? gimage = imageUrl;
+                      String? guser = umail.toString().split('@')[0];
+
+                      if (formGlobalKey.currentState!.validate()) {
+                        print('Successfull');
+                        logindata.setBool('login', false);
+
+                        logindata.setString('gmail', gmail.toString());
+                        logindata.setString('guser', guser);
+                        logindata.setString('gimage', gimage.toString());
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return Note('', '');
+                            }));
+                      }
+                      signInWithGoogle().then((onValue){
+                        FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
+                        add({
+                          'email': umail, 'image': imageUrl, 'name': uname,
+                        });
+                      }).catchError((e){
+                        print(e);
+                      }).then((onValue){
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return Note('', '');
+                            }),
+                        );
+                      }).catchError((e){print((e));});
+
+                    },
+                    child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Google'),
+                      ),
+                    ],
+                  ),
+                  ),
                 ),
               ),
-            ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Don\'t have an account?'),
-                TextButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return const Signup();
-                      }));
-                },
-                    child: const Text('SignUp now!')),
-              ],
-            )
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Don\'t have an account?'),
+                  TextButton(onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (BuildContext context){
+                          return const Signup();
+                        }));
+                  },
+                      child: const Text('SignUp now!')),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -200,7 +210,7 @@ class _LoginState extends State<Login> {
   void CheckIfAlreadyLogin() async {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') ?? true);
-    
+
     print('newuser');
     if(newuser == false) {
       Navigator.pushReplacement(context, MaterialPageRoute(

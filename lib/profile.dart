@@ -23,15 +23,19 @@ class _ProfileState extends State<Profile> {
   }
 
   void initial() async {
-    logindata = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = logindata.getString('email');
-      username = logindata.getString('username');
+      email = prefs.getString('email');
+      username = prefs.getString('username');
+      // email = logindata.getString('email');
+      // username = logindata.getString('username');
       gmail = logindata.getString('gmail');
       gimage = logindata.getString('gimage');
       guser = logindata.getString('guser');
     });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
