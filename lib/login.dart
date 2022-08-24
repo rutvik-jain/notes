@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text('Login',
-        style: TextStyle(color: Colors.redAccent),),
+          style: TextStyle(color: Colors.redAccent),),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -50,22 +50,22 @@ class _LoginState extends State<Login> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    validator: (value) {
-                    if (value!.isEmpty || !value.contains('@')) {
-                    return 'Invalid email';
-                    }
-                    return null;
-                    },
+                      validator: (value) {
+                        if (value!.isEmpty || !value.contains('@')) {
+                          return 'Invalid email';
+                        }
+                        return null;
+                      },
                       textAlign: TextAlign.start,
-                    controller: emailController,
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           labelText: 'Email'),
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    }
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      }
                   ),
                 ),
               ),
@@ -73,18 +73,18 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty || value.length <= 6) {
-                      return 'Password required atleast 6 digits!';
-                    } else {
-                      return null;
-                    }
-                  },
-                  textAlign: TextAlign.start,
-                  controller: pwdController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      labelText: 'Password'),
+                    validator: (value) {
+                      if (value!.isNotEmpty || value.length >= 6) {
+                        return 'Password required atleast 6 digits!';
+                      } else {
+                        return null;
+                      }
+                    },
+                    textAlign: TextAlign.start,
+                    controller: pwdController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        labelText: 'Password'),
                     onChanged: (value) {
                       setState(() {
                         password = value;
@@ -97,37 +97,37 @@ class _LoginState extends State<Login> {
               ElevatedButton(
                   onPressed: (){
 
-                String email = emailController.text;
-                String password = pwdController.text;
-                String username = emailController.text.split('@')[0];
+                    String email = emailController.text;
+                    String password = pwdController.text;
+                    String username = emailController.text.split('@')[0];
 
-                if (formGlobalKey.currentState!.validate()) {
+                    if (formGlobalKey.currentState!.validate()) {
 
-                // if (email != '' || !email.contains('@') && password != '' || password.length >= 6){
-                  print('Successfull');
+                      // if (email != '' || !email.contains('@') && password != '' || password.length >= 6){
+                      print('Successfull');
 
-                  logindata.setBool('login', false);
+                      logindata.setBool('login', false);
 
-                  logindata.setString('email', email);
-                  logindata.setString('username', username);
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return Note('', '');
-                      }));
-                 }
-                else return;
-                print('login succeeded');
-                FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: emailController.text, password: pwdController.text)
-                    .then((FirebaseUser){
+                      logindata.setString('email', email);
+                      logindata.setString('username', username);
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return Note('', '');
+                          }));
+                    }
+                    else return;
+                    print('login succeeded');
+                    FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: emailController.text, password: pwdController.text)
+                        .then((FirebaseUser){
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (BuildContext context){
-                              return Note('', '');
-                            })
+                          MaterialPageRoute(
+                              builder: (BuildContext context){
+                                return Note('', '');
+                              })
                       );
-                });
-              },
+                    });
+                  },
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
                   child: const Text('Login',style: TextStyle(
                       color: Colors.redAccent,fontSize: 18),
@@ -173,17 +173,17 @@ class _LoginState extends State<Login> {
 
                     },
                     child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset('assets/images/img.png',height: 50,width: 50,),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('Google'),
-                      ),
-                    ],
-                  ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('Google'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

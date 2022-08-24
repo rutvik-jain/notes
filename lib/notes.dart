@@ -51,6 +51,8 @@ class _NoteState extends State<Note> {
           },
               icon: const Icon(Icons.account_circle,color: Colors.redAccent,)),
           IconButton(onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.clear();
             logindata.setBool('login', true);
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context){
