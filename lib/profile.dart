@@ -9,12 +9,12 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late SharedPreferences logindata;
-  String? email;
-  String? username;
-  String? gmail;
-  String? guser;
-  String? gimage;
+  // late SharedPreferences logindata;
+  String? profilemail;
+  String? profileuname;
+  // String? gmail;
+  // String? guser;
+  // String? gimage;
 
   @override
   void initState() {
@@ -25,13 +25,15 @@ class _ProfileState extends State<Profile> {
   void initial() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      email = prefs.getString('email');
-      username = prefs.getString('username');
+      var email = prefs.getString('email');
+      var username = prefs.getString('username');
+      profilemail = email;
+      profileuname = username.toString();
       // email = logindata.getString('email');
       // username = logindata.getString('username');
-      gmail = logindata.getString('gmail');
-      gimage = logindata.getString('gimage');
-      guser = logindata.getString('guser');
+      // gmail = logindata.getString('gmail');
+      // gimage = logindata.getString('gimage');
+      // guser = logindata.getString('guser');
     });
   }
 
@@ -47,24 +49,24 @@ class _ProfileState extends State<Profile> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 120,left: 20),
-              child: Text('Email:- $email',style: TextStyle(fontSize: 22),),
+              child: Text('Email:- $profilemail',style: TextStyle(fontSize: 22),),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10,right: 60),
-              child: Text('Username:- $username',style: TextStyle(fontSize: 22),),
+              child: Text('Username:- $profileuname',style: TextStyle(fontSize: 22),),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 120,left: 20),
-              child: Text('Gmail:- $gmail',style: TextStyle(fontSize: 22),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10,right: 60),
-              child: Image.network('$gimage'),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10,right: 60),
-              child: Text('Guser:- $guser',style: TextStyle(fontSize: 22),),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 120,left: 20),
+            //   child: Text('Gmail:- $gmail',style: TextStyle(fontSize: 22),),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 10,right: 60),
+            //   child: Image.network('$gimage'),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 10,right: 60),
+            //   child: Text('Guser:- $guser',style: TextStyle(fontSize: 22),),
+            // ),
           ],
         ),
       ),

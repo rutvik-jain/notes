@@ -74,8 +74,8 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                     validator: (value) {
-                      if (value!.isNotEmpty || value.length >= 6) {
-                        return 'Password required atleast 6 digits!';
+                      if (value!.isEmpty || value.length < 6) {
+                        return 'Password required atleast 5 digits!';
                       } else {
                         return null;
                       }
