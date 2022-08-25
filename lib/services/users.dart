@@ -21,9 +21,9 @@ Future<String> signInWithGoogle() async {
   final UserCredential authResult = await auth.signInWithCredential(credential);
   final User? user = authResult.user;
 
-  assert (user?.email != null);
-  assert (user?.displayName != null);
-  assert (user?.photoURL != null);
+  assert (user!.email != null);
+  assert (user!.displayName != null);
+  assert (user!.photoURL != null);
 
   umail = user!.email;
   uname = user.displayName;

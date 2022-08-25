@@ -20,6 +20,7 @@ class _LoginState extends State<Login> {
   TextEditingController pwdController = TextEditingController();
   late String email;
   late String password;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   late SharedPreferences logindata;
   late bool newuser;
@@ -95,7 +96,7 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 20),
 
               ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
 
                     String email = emailController.text;
                     String password = pwdController.text;
@@ -105,7 +106,6 @@ class _LoginState extends State<Login> {
 
                       // if (email != '' || !email.contains('@') && password != '' || password.length >= 6){
                       print('Successfull');
-
                       logindata.setBool('login', false);
 
                       logindata.setString('email', email);
@@ -139,35 +139,32 @@ class _LoginState extends State<Login> {
                   width: 160,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: (){
-                      String gmail = umail.toString();
-                      String gimage = imageUrl.toString();
-                      String guser = umail.toString().split('@')[0];
-                      print(gmail);
-                      print(guser);
+                    onPressed: () async {
+                      if(user != null && user!.email != null && user!.photoURL != null && user!.displayName != null) {
+                        String? gmail = user!.email;
+                        String? gimage = user!.photoURL;
+                        String? guser = user!.displayName;
+                        print(gmail);
+                        print(guser);
 
                         print('Successfull');
+
                         logindata.setBool('login', false);
+                        logindata.setString('gmail', gmail!);
+                        logindata.setString('guser', guser!);
 
-                        logindata.setString('gmail', gmail);
-                        logindata.setString('guser', guser);
-                        logindata.setString('gimage', gimage);
-
-                        // Navigator.pushReplacement(context, MaterialPageRoute(
-                        //     builder: (BuildContext context){
-                        //       return Note('', '');
-                        //     }));
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return Note('', '');
+                            }));
+                      }
 
                       signInWithGoogle().then((onValue){
                         FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
                         add({
                           'email': umail, 'image': imageUrl, 'name': uname,
                         });
-                        print("value -> ${onValue}");
-                      }).catchError((e){
-                        print(e);
-                      }).then((onValue){
-                        if(onValue != null) {
+                        if (onValue != null) {
                           Navigator.pushReplacement(context, MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return Note('', '');
@@ -175,7 +172,8 @@ class _LoginState extends State<Login> {
                           );
                         }
                         else return Login();
-                      }).catchError((e){print((e));});
+                        print("value -> ${onValue}");
+                      });
 
                     },
                     child: Row(

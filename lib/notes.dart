@@ -60,7 +60,7 @@ class _NoteState extends State<Note> {
                   return const Login();
                 }));
            await FirebaseAuth.instance.signOut();
-           googleSignIn.currentUser!.clearAuthCache();
+           googleSignIn.disconnect();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){
               return Login();
             }));
