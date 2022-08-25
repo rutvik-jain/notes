@@ -28,12 +28,16 @@ Future<String> signInWithGoogle() async {
   umail = user!.email;
   uname = user.displayName;
   imageUrl = user.photoURL;
+  // print(umail);
+  // print(uname);
 
   final User currentUser = auth.currentUser!;
   assert(user.uid == currentUser.uid);
 
   return 'signInWithGoogle succeeded: $user';
+
 }
+
   void signOutGoogle() async {
   await googleSignIn.signOut();
   

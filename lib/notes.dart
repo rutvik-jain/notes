@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/newNote.dart';
 import 'package:notes/login.dart';
 import 'package:notes/profile.dart';
+import 'package:notes/services/users.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Note extends StatefulWidget {
@@ -59,6 +60,7 @@ class _NoteState extends State<Note> {
                   return const Login();
                 }));
            await FirebaseAuth.instance.signOut();
+           googleSignIn.currentUser!.clearAuthCache();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context){
               return Login();
             }));

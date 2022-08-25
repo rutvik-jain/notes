@@ -10,8 +10,14 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
   var username = prefs.getString('username');
+  // var gmail = prefs.getString('gmail');
+  // var guser = prefs.getString('guser');
+  // var gimage = prefs.getString('gimage');
   print(email);
   print(username);
+  // print(gmail);
+  // print(guser);
+  // print(gimage);
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       home: email == null ? Login() : Note('', '')));

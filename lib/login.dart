@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                 child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty || value.length < 6) {
-                        return 'Password required atleast 5 digits!';
+                        return 'Password required atleast 6 digits!';
                       } else {
                         return null;
                       }
@@ -140,35 +140,41 @@ class _LoginState extends State<Login> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: (){
-                      String? gmail = umail;
-                      String? gimage = imageUrl;
-                      String? guser = umail.toString().split('@')[0];
+                      String gmail = umail.toString();
+                      String gimage = imageUrl.toString();
+                      String guser = umail.toString().split('@')[0];
+                      print(gmail);
+                      print(guser);
 
-                      if (formGlobalKey.currentState!.validate()) {
                         print('Successfull');
                         logindata.setBool('login', false);
 
-                        logindata.setString('gmail', gmail.toString());
+                        logindata.setString('gmail', gmail);
                         logindata.setString('guser', guser);
-                        logindata.setString('gimage', gimage.toString());
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (BuildContext context){
-                              return Note('', '');
-                            }));
-                      }
+                        logindata.setString('gimage', gimage);
+
+                        // Navigator.pushReplacement(context, MaterialPageRoute(
+                        //     builder: (BuildContext context){
+                        //       return Note('', '');
+                        //     }));
+
                       signInWithGoogle().then((onValue){
                         FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
                         add({
                           'email': umail, 'image': imageUrl, 'name': uname,
                         });
+                        print("value -> ${onValue}");
                       }).catchError((e){
                         print(e);
                       }).then((onValue){
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (BuildContext context){
-                              return Note('', '');
-                            }),
-                        );
+                        if(onValue != null) {
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return Note('', '');
+                              }),
+                          );
+                        }
+                        else return Login();
                       }).catchError((e){print((e));});
 
                     },

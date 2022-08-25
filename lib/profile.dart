@@ -55,10 +55,10 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.only(top: 10,right: 60),
               child: Text('Username:- $profileuname',style: TextStyle(fontSize: 22),),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 120,left: 20),
-            //   child: Text('Gmail:- $gmail',style: TextStyle(fontSize: 22),),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 120,left: 20),
+              child: Text('',style: TextStyle(fontSize: 22),),
+            ),
             // Padding(
             //   padding: const EdgeInsets.only(top: 10,right: 60),
             //   child: Image.network('$gimage'),
