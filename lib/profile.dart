@@ -28,7 +28,7 @@ class _ProfileState extends State<Profile> {
       var email = prefs.getString('email');
       var username = prefs.getString('username');
       profilemail = email;
-      profileuname = username.toString();
+      profileuname = username;
       // email = logindata.getString('email');
       // username = logindata.getString('username');
       // gmail = logindata.getString('gmail');
