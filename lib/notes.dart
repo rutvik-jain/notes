@@ -57,7 +57,7 @@ class _NoteState extends State<Note> {
             logindata.setBool('login', true);
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context){
-                  return const Login();
+                  return Login();
                 }));
            await FirebaseAuth.instance.signOut();
            googleSignIn.disconnect();

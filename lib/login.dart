@@ -103,9 +103,6 @@ class _LoginState extends State<Login> {
                     String username = emailController.text.split('@')[0];
 
                     if (formGlobalKey.currentState!.validate()) {
-
-                      // if (email != '' || !email.contains('@') && password != '' || password.length >= 6){
-                      print('Successfull');
                       logindata.setBool('login', false);
 
                       logindata.setString('email', email);
@@ -116,11 +113,9 @@ class _LoginState extends State<Login> {
                           }));
                     }
                     else return;
-                    print('login succeeded');
                     FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: emailController.text, password: pwdController.text)
                         .then((user){
-                          print(user.user!.email);
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                               builder: (BuildContext context){
@@ -141,23 +136,6 @@ class _LoginState extends State<Login> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
-                      // if(user != null && user!.email != null && user!.displayName != null) {
-                      //   String? gmail = user!.email;
-                      //   String? gimage = user!.photoURL;
-                      //   String? guser = user!.displayName;
-                      //   print(gmail);
-                      //   print(guser);
-                      //
-                      //   print('Successfull');
-                      //
-                      //   // logindata.setBool('login', false);
-                      //   logindata.setString('gmail', gmail!);
-                      //   logindata.setString('guser', guser!);
-                      //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //   //     builder: (BuildContext context){
-                      //   //       return Note('', '');
-                      //   //     }));
-                      // }
                       signInWithGoogle().then((onValue){
                         logindata.setBool('login', false);
                         logindata.setString('gmail', umail!);
@@ -173,8 +151,9 @@ class _LoginState extends State<Login> {
                               }),
                           );
                         }
-                        else return Login();
-                        print("value -> ${onValue}");
+                        else {
+                          return const Login();
+                        }
                       });
                     },
                     child: Row(
@@ -216,7 +195,6 @@ class _LoginState extends State<Login> {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') ?? true);
 
-    print('newuser');
     if(newuser == false) {
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (BuildContext context){
