@@ -80,6 +80,7 @@ class _LoginState extends State<Login> {
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
+                          focusedBorder: InputBorder.none,
                             labelText: 'Email',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.black)
@@ -96,6 +97,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.only(left: 25,right: 25),
                   child: TextFormField(
+
                       validator: (value) {
                         if (value!.isEmpty || value.length < 6) {
                           return 'Password required atleast 6 digits!';
@@ -108,6 +110,7 @@ class _LoginState extends State<Login> {
                       obscureText: true,
                       decoration: const InputDecoration(
                           labelText: 'Password',
+                          focusedBorder: InputBorder.none,
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)
                           )),
@@ -157,7 +160,7 @@ class _LoginState extends State<Login> {
                 
                 const Padding(
                   padding: EdgeInsets.only(top: 15,bottom: 15),
-                  child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                  child: Text('--------------  or sign up via  -------------',style: TextStyle(fontSize: 16,color: Colors.grey),),
                 ),
 
                 Padding(
@@ -191,8 +194,8 @@ class _LoginState extends State<Login> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 100),
-                            child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                            padding: const EdgeInsets.only(left: 100,right: 10),
+                            child: Image.asset('assets/images/img_3.png',height: 25,width: 30,),
                           ),
                           const Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),),
                         ],

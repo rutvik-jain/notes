@@ -47,29 +47,31 @@ class _SignupState extends State<Signup> {
             child: Column(
               children: [
                 Image.asset('assets/images/img_2.png',),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40,right: 160),
+                const Padding(
+                  padding: EdgeInsets.only(top: 40,right: 160),
                   child: Text('Sign Up to Notes',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                 ),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 28),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 28),
                       child: Text('Already have an account?',style: TextStyle(fontSize: 16,color: Colors.grey),),
                     ),
                     TextButton(onPressed: (){
                       Navigator.pop(context, MaterialPageRoute(builder: (BuildContext context){
-                        return Login();
+                        return const Login();
                       }));
                     },
-                        child: Text('Login',style: TextStyle(fontSize: 16),))
+                        child: const Text('Login',style: TextStyle(fontSize: 16),))
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8),
                   child: TextFormField(
                     textAlign: TextAlign.start,
                     decoration: const InputDecoration(
+                      fillColor: Colors.white70,
+                        filled: true,
                         labelText: 'Full Name',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -77,7 +79,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8),
                   child: TextFormField(
                       validator: (value) {
                         if (value!.isEmpty || !value.contains('@')) {
@@ -88,6 +90,8 @@ class _SignupState extends State<Signup> {
                       controller: emailController,
                       textAlign: TextAlign.start,
                       decoration: const InputDecoration(
+                          fillColor: Colors.white70,
+                          filled: true,
                           labelText: 'Email',
                           border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -100,7 +104,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8),
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty || value.length < 6) {
@@ -113,6 +117,8 @@ class _SignupState extends State<Signup> {
                     textAlign: TextAlign.start,
                     obscureText: true,
                     decoration: const InputDecoration(
+                        fillColor: Colors.white70,
+                        filled: true,
                         labelText: 'Password',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -125,10 +131,12 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8),
                   child: TextFormField(
                     textAlign: TextAlign.start,
                     decoration: const InputDecoration(
+                        fillColor: Colors.white70,
+                        filled: true,
                         labelText: 'Confirm Password',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -176,10 +184,10 @@ class _SignupState extends State<Signup> {
                         color: Colors.white,fontSize: 18),
                     )),
 
-                Padding(
-                  padding: const EdgeInsets.only(top: 15,bottom: 15),
-                  child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
-                ),
+                 Padding(
+                   padding: const EdgeInsets.only(top: 10,bottom: 5),
+                   child: Text('--------------  or sign up via  -------------',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                 ),
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -212,8 +220,8 @@ class _SignupState extends State<Signup> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 100),
-                            child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                            padding: const EdgeInsets.only(left: 100,right: 10),
+                            child: Image.asset('assets/images/img_3.png',height: 25,width: 30,),
                           ),
                           const Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
                         ],
