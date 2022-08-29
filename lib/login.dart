@@ -33,159 +33,199 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Login',
-          style: TextStyle(color: Colors.redAccent),),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Form(
-          key: formGlobalKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 80),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty || !value.contains('@')) {
-                          return 'Invalid email';
-                        }
-                        return null;
-                      },
-                      textAlign: TextAlign.start,
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                          labelText: 'Email'),
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
-                      }
-                  ),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.black,
+        //   title: const Text('Login',
+        //     style: TextStyle(color: Colors.redAccent),),
+        //   centerTitle: true,
+        // ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Form(
+            key: formGlobalKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 70,right: 160),
+                  child: Text('Welcome, Sign In',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty || value.length < 6) {
-                        return 'Password required atleast 6 digits!';
-                      } else {
-                        return null;
-                      }
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 28),
+                      child: Text('No Account?',style: TextStyle(fontSize: 16),),
+                    ),
+                    TextButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                        return const Signup();
+                      }));
                     },
-                    textAlign: TextAlign.start,
-                    controller: pwdController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        labelText: 'Password'),
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    }
+                        child: Text('No Account?',style: TextStyle(fontSize: 16),))
+                  ],
                 ),
-              ),
-              const SizedBox(height: 20),
-
-              ElevatedButton(
-                  onPressed: () async {
-
-                    String email = emailController.text;
-                    String password = pwdController.text;
-                    String username = emailController.text.split('@')[0];
-
-                    if (formGlobalKey.currentState!.validate()) {
-                      logindata.setBool('login', false);
-
-                      logindata.setString('email', email);
-                      logindata.setString('username', username);
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (BuildContext context){
-                            return Note('', '');
-                          }));
-                    }
-                    else return;
-                    FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: emailController.text, password: pwdController.text)
-                        .then((user){
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (BuildContext context){
-                                return Note('', '');
-                              })
-                      );
-                    });
-                  },
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black)),
-                  child: const Text('Login',style: TextStyle(
-                      color: Colors.redAccent,fontSize: 18),
-                  )),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 160,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      signInWithGoogle().then((onValue){
-                        logindata.setBool('login', false);
-                        logindata.setString('gmail', umail!);
-                        logindata.setString('guser', uname!);
-                        FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
-                        add({
-                          'email': umail, 'image': imageUrl, 'name': uname,
-                        });
-                        if (onValue != null) {
-                          Navigator.pushReplacement(context,MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return Note('', '');
-                              }),
-                          );
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25,right: 25),
+                    child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty || !value.contains('@')) {
+                            return 'Invalid email';
+                          }
+                          return null;
+                        },
+                        textAlign: TextAlign.start,
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                            labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)
+                        )),
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
                         }
-                        else {
-                          return const Login();
-                        }
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset('assets/images/img.png',height: 50,width: 50,),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Google'),
-                        ),
-                      ],
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty || value.length < 6) {
+                          return 'Password required atleast 6 digits!';
+                        } else {
+                          return null;
+                        }
+                      },
+                      textAlign: TextAlign.start,
+                      controller: pwdController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)
+                          )),
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      }
+                  ),
+                ),
+                const SizedBox(height: 50),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Don\'t have an account?'),
-                  TextButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (BuildContext context){
-                          return const Signup();
-                        }));
-                  },
-                      child: const Text('SignUp now!')),
-                ],
-              )
-            ],
+                ElevatedButton(
+                    onPressed: () async {
+
+                      String email = emailController.text;
+                      String password = pwdController.text;
+                      String username = emailController.text.split('@')[0];
+
+                      if (formGlobalKey.currentState!.validate()) {
+                        logindata.setBool('login', false);
+
+                        logindata.setString('email', email);
+                        logindata.setString('username', username);
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (BuildContext context){
+                              return Note('', '');
+                            }));
+                      }
+                      else return;
+                      FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text, password: pwdController.text)
+                          .then((user){
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (BuildContext context){
+                                  return Note('', '');
+                                })
+                        );
+                      });
+                    },
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                        padding: MaterialStateProperty.all(EdgeInsets.only(top: 10,bottom: 10,left: 135,right: 135))),
+                    child: const Text('Sign In',style: TextStyle(
+                        color: Colors.white,fontSize: 18),
+                    )),
+                
+                Padding(
+                  padding: const EdgeInsets.only(top: 15,bottom: 15),
+                  child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                      onPressed: () async {
+                        signInWithGoogle().then((onValue){
+                          logindata.setBool('login', false);
+                          logindata.setString('gmail', umail!);
+                          logindata.setString('guser', uname!);
+                          FirebaseFirestore.instance.collection('Users').doc('auth').collection('gusers').
+                          add({
+                            'email': umail, 'image': imageUrl, 'name': uname,
+                          });
+                          if (onValue != null) {
+                            Navigator.pushReplacement(context,MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return Note('', '');
+                                }),
+                            );
+                          }
+                          else {
+                            return const Login();
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset('assets/images/img.png',height: 50,width: 50,),
+                          ),
+                          Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     const Text('Don\'t have an account?'),
+                //     TextButton(onPressed: (){
+                //       Navigator.push(context, MaterialPageRoute(
+                //           builder: (BuildContext context){
+                //             return const Signup();
+                //           }));
+                //     },
+                //         child: const Text('SignUp now!')),
+                //   ],
+                // )
+              const Padding(
+                padding: EdgeInsets.only(top: 25,right: 85,),
+                child: Text('By signin up to Notes you agree to our',style: TextStyle(color: Colors.grey,fontSize: 14,),),
+              ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 185),
+                  child: TextButton(onPressed: (){},
+                      child: Text('terms and conditions')),
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
