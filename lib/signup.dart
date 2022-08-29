@@ -184,7 +184,7 @@ class _SignupState extends State<Signup> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 160,
+                    width: 330,
                     height: 50,
                     child: ElevatedButton(
                       style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
@@ -212,10 +212,10 @@ class _SignupState extends State<Signup> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(left: 100),
                             child: Image.asset('assets/images/img.png',height: 50,width: 50,),
                           ),
-                          Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          const Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
                         ],
                       ),
                     ),

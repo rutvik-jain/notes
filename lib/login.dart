@@ -47,14 +47,14 @@ class _LoginState extends State<Login> {
             key: formGlobalKey,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 70,right: 160),
+                const Padding(
+                  padding: EdgeInsets.only(top: 70,right: 160),
                   child: Text('Welcome, Sign In',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                 ),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 28),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 28),
                       child: Text('No Account?',style: TextStyle(fontSize: 16),),
                     ),
                     TextButton(onPressed: (){
@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
                         return const Signup();
                       }));
                     },
-                        child: Text('No Account?',style: TextStyle(fontSize: 16),))
+                        child: const Text('No Account?',style: TextStyle(fontSize: 16),))
                   ],
                 ),
                 Padding(
@@ -150,20 +150,20 @@ class _LoginState extends State<Login> {
                       });
                     },
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
-                        padding: MaterialStateProperty.all(EdgeInsets.only(top: 10,bottom: 10,left: 135,right: 135))),
+                        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 10,bottom: 10,left: 135,right: 135))),
                     child: const Text('Sign In',style: TextStyle(
                         color: Colors.white,fontSize: 18),
                     )),
                 
-                Padding(
-                  padding: const EdgeInsets.only(top: 15,bottom: 15),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15,bottom: 15),
                   child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 160,
+                    width: 330,
                     height: 50,
                     child: ElevatedButton(
                       style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
@@ -191,10 +191,10 @@ class _LoginState extends State<Login> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(left: 100),
                             child: Image.asset('assets/images/img.png',height: 50,width: 50,),
                           ),
-                          Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          const Text('Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),),
                         ],
                       ),
                     ),
@@ -221,7 +221,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.only(right: 185),
                   child: TextButton(onPressed: (){},
-                      child: Text('terms and conditions')),
+                      child: const Text('terms and conditions')),
                 ),
 
               ],
