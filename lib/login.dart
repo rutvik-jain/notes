@@ -80,10 +80,10 @@ class _LoginState extends State<Login> {
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                          focusedBorder: InputBorder.none,
-                            labelText: 'Email',
+                            hintText: 'Email',
+                            focusColor: Colors.grey,
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black)
+                          borderSide: BorderSide(color: Colors.black),
                         )),
                         onChanged: (value) {
                           setState(() {
@@ -109,8 +109,8 @@ class _LoginState extends State<Login> {
                       controller: pwdController,
                       obscureText: true,
                       decoration: const InputDecoration(
-                          labelText: 'Password',
-                          focusedBorder: InputBorder.none,
+                          hintText: 'Password',
+                          focusColor: Colors.grey,
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)
                           )),
@@ -163,10 +163,13 @@ class _LoginState extends State<Login> {
                   child: Row(
                     children: const [
                       Flexible(child: Divider(thickness: 1,
-                        color: Colors.grey,indent: 30,endIndent: 1,)),
-                      Flexible(child: Text('    or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),)),
+                        color: Colors.grey,indent: 30,endIndent: 0,)),
+                      Flexible(child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                      )),
                       Flexible(child: Divider(thickness: 1,
-                        color: Colors.grey,indent: 20,endIndent: 10,)),
+                        color: Colors.grey,indent: 15,endIndent: 15,)),
                     ],
                   ),
                 ),

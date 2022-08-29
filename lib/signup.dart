@@ -73,7 +73,7 @@ class _SignupState extends State<Signup> {
                     decoration: const InputDecoration(
                       fillColor: Colors.white70,
                         filled: true,
-                        labelText: 'Full Name',
+                        hintText: 'Full Name',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                         )),
@@ -93,7 +93,7 @@ class _SignupState extends State<Signup> {
                       decoration: const InputDecoration(
                           fillColor: Colors.white70,
                           filled: true,
-                          labelText: 'Email',
+                          hintText: 'Email',
                           border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       )),
@@ -120,7 +120,7 @@ class _SignupState extends State<Signup> {
                     decoration: const InputDecoration(
                         fillColor: Colors.white70,
                         filled: true,
-                        labelText: 'Password',
+                        hintText: 'Password',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                         )),
@@ -138,7 +138,7 @@ class _SignupState extends State<Signup> {
                     decoration: const InputDecoration(
                         fillColor: Colors.white70,
                         filled: true,
-                        labelText: 'Confirm Password',
+                        hintText: 'Confirm Password',
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                         )),
@@ -190,10 +190,13 @@ class _SignupState extends State<Signup> {
                    child: Row(
                      children: const [
                        Flexible(child: Divider(thickness: 1,
-                         color: Colors.grey,indent: 30,endIndent: 1,)),
-                       Flexible(child: Text('    or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),)),
+                         color: Colors.grey,indent: 30,endIndent: 0,)),
+                       Flexible(child: Padding(
+                         padding: EdgeInsets.only(left: 20),
+                         child: Text('or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                       )),
                        Flexible(child: Divider(thickness: 1,
-                         color: Colors.grey,indent: 20,endIndent: 10,)),
+                         color: Colors.grey,indent: 15,endIndent: 15,)),
                      ],
                    ),
                  ),
