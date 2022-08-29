@@ -34,6 +34,7 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         // appBar: AppBar(
         //   backgroundColor: Colors.black,
         //   title: Text('Signup',
@@ -131,7 +132,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8),
+                  padding: const EdgeInsets.only(left: 25,right: 25,top: 8,bottom: 15),
                   child: TextFormField(
                     textAlign: TextAlign.start,
                     decoration: const InputDecoration(
@@ -185,8 +186,16 @@ class _SignupState extends State<Signup> {
                     )),
 
                  Padding(
-                   padding: const EdgeInsets.only(top: 10,bottom: 5),
-                   child: Text('--------------  or sign up via  -------------',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                   padding: const EdgeInsets.only(top: 10,bottom: 5,),
+                   child: Row(
+                     children: const [
+                       Flexible(child: Divider(thickness: 1,
+                         color: Colors.grey,indent: 30,endIndent: 1,)),
+                       Flexible(child: Text('    or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),)),
+                       Flexible(child: Divider(thickness: 1,
+                         color: Colors.grey,indent: 20,endIndent: 10,)),
+                     ],
+                   ),
                  ),
 
                 Padding(
@@ -195,7 +204,7 @@ class _SignupState extends State<Signup> {
                     width: 330,
                     height: 50,
                     child: ElevatedButton(
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                      style: ElevatedButton.styleFrom(elevation: 0,primary: Colors.white,side: BorderSide(color: Colors.grey)),
                       onPressed: () async {
                         signInWithGoogle().then((onValue){
                           signupdata.setBool('login', false);

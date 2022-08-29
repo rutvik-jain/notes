@@ -157,10 +157,18 @@ class _LoginState extends State<Login> {
                     child: const Text('Sign In',style: TextStyle(
                         color: Colors.white,fontSize: 18),
                     )),
-                
-                const Padding(
-                  padding: EdgeInsets.only(top: 15,bottom: 15),
-                  child: Text('--------------  or sign up via  -------------',style: TextStyle(fontSize: 16,color: Colors.grey),),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 10,bottom: 5,),
+                  child: Row(
+                    children: const [
+                      Flexible(child: Divider(thickness: 1,
+                        color: Colors.grey,indent: 30,endIndent: 1,)),
+                      Flexible(child: Text('    or sign up via',style: TextStyle(fontSize: 16,color: Colors.grey),)),
+                      Flexible(child: Divider(thickness: 1,
+                        color: Colors.grey,indent: 20,endIndent: 10,)),
+                    ],
+                  ),
                 ),
 
                 Padding(
@@ -169,7 +177,7 @@ class _LoginState extends State<Login> {
                     width: 330,
                     height: 50,
                     child: ElevatedButton(
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                      style: ElevatedButton.styleFrom(elevation: 0,primary: Colors.white,side: BorderSide(color: Colors.grey)),
                       onPressed: () async {
                         signInWithGoogle().then((onValue){
                           logindata.setBool('login', false);
