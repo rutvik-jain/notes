@@ -47,7 +47,7 @@ class _SignupState extends State<Signup> {
             key: formGlobalKey,
             child: Column(
               children: [
-                Image.asset('assets/images/img_2.png',),
+                Image.asset('assets/images/img_2.png',width: 340,),
                 const Padding(
                   padding: EdgeInsets.only(top: 40,right: 160),
                   child: Text('Sign Up to Notes',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
