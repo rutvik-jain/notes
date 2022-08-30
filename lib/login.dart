@@ -81,9 +81,9 @@ class _LoginState extends State<Login> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                             hintText: 'Email',
-                            focusColor: Colors.grey,
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.grey),
                         )),
                         onChanged: (value) {
                           setState(() {
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                       obscureText: true,
                       decoration: const InputDecoration(
                           hintText: 'Password',
-                          focusColor: Colors.grey,
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)
                           )),
